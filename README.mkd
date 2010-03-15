@@ -27,7 +27,7 @@ So in Cassandra, this schema might look like:
     goffinet:  name=fullname, value=Chris Goffinet
     sammy:     name=fullname, value=Sammy Yu
 
-When you access a key, you don't get a single value back anymore; you get a list of Columns, each of which has it's own name and value. These lists are called *Rows*, and each row can have an unlimited number of columns. Unlike SQL databases, rows need not share the same set of possible column names. We could easily add to this dataset like this:
+When you access a key, you don't get a single value back anymore; you get a list of Columns, each of which has its own name and value. These lists are called *Rows*, and each row can have an unlimited number of columns. Unlike SQL databases, rows need not share the same set of possible column names. We could easily add to this dataset like this:
 
     ieure:     name=fullname,       value=Ian Eure
                name=lazyboy_author, value=yes
@@ -37,7 +37,7 @@ When you access a key, you don't get a single value back anymore; you get a list
 
 You can see that `ieure` is marked as an author of Lazyboy, while the others aren't. You don't have to add `lazyboy_author` columns for everyone, and you can add other columns to only some rows.
 
-In Lazyboy terms, each of those rows is called a Record. Records are objects which mimic Python dictionaries; each column name is a key, and it's value is returned when you access that key. If you imagine that you have a Record subclass called User which takes a username (that is, a row key) as it's first `__init__` argument, it might work like this:
+In Lazyboy terms, each of those rows is called a Record. Records are objects which mimic Python dictionaries; each column name is a key, and its value is returned when you access that key. If you imagine that you have a Record subclass called User which takes a username (that is, a row key) as its first `__init__` argument, it might work like this:
 
     user = User("ieure")
     print user['fullname']
@@ -68,7 +68,7 @@ If we want to get a list of links for a user, we use their username to look up a
 
 Cassandra has two ways of addressing the objects we've discussed: *ColumnPath* and *ColumnParent*. A ColumnPath consists of a column family, row key, and column name; it addresses a single column somewhere in the database. A ColumnParent omits the column name, and therefore addresses a row. Neither include the Keyspace which the object resides in. Lazyboy builds on top this with *Key* objects, which extend ColumnPath and include the keyspace. Keys are used in Lazyboy for addressing Records.
 
-With me so far? Good, because Cassandra has one more trick up it's sleeve: SuperColumns.
+With me so far? Good, because Cassandra has one more trick up its sleeve: SuperColumns.
 
 Each column family in Cassandra can be one of two types: normal or super. We've covered normal column families so far; these map a row key to a list of columns, each of which has that (key, value, timestamp) triplet.
 
@@ -83,7 +83,7 @@ Super CF:
     ieure: [SuperColumn, SuperColumn, SuperColumn, ...]
 
 
-A SuperColumn is much like a normal column, except it's value isn't a string, it's a *another list of columns*. This is hard to visualize, so let's look at another example. If we make Users a super column family, we might arrange it like this:
+A SuperColumn is much like a normal column, except its value isn't a string, it's a *another list of columns*. This is hard to visualize, so let's look at another example. If we make Users a super column family, we might arrange it like this:
 
     Users:
         ieure:
